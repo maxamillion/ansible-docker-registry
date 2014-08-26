@@ -1,0 +1,25 @@
+---
+# tasks file for docker-registry
+
+- name: Install Packages
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - docker-registry
+
+- name: Verify docker_registry_storage_path exists
+  file: >
+    path={{docker_registry_storage_path}}
+    state=directory
+
+- name: Start and enable docker-registry
+  service: >
+    name=docker-registry
+    state=started
+    enabled=yes
+
+- name: Configure docker-registry
+  template: >
+    src=docker-registry.yml.j2
+    dest=/etc/docker-registry.yml
+  notify:
+    - restart docker-registry

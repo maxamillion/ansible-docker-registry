@@ -1,0 +1,77 @@
+# The Docker registry configuration file
+# DOCKER_REGISTRY_CONFIG=/etc/docker-registry.yml
+
+# The configuration to use from DOCKER_REGISTRY_CONFIG file
+SETTINGS_FLAVOR={{docker_registry_profile}}
+
+# Address to bind the registry to
+REGISTRY_ADDRESS={{docker_registry_bind_address}}
+
+# Port to bind the registry to
+REGISTRY_PORT={{docker_registry_bind_port}}
+
+# Number of workers to handle the connections
+GUNICORN_WORKERS={{docker_registry_gunicorn_workers}}
+
+
+STORAGE_PATH={{docker_registry_storage_path}}
+
+{% if docker_registry_profile == 's3' %}
+AWS_REGION={{docker_registry_s3_region}}
+AWS_BUCKET={{docker_registry_s3_bucket}}
+AWS_BUCKET={{docker_registry_s3_bucket}}
+AWS_ENCRYPT={{docker_registry_s3_encrypt
+AWS_SECURE={{docker_registry_s3_secure}}
+AWS_KEY={{docker_registry_s3_access_key}}
+AWS_SECRET={{docker_registry_s3_secret_key}}
+{% endif %}
+
+{% if docker_registry_profile == 'gcs' %}
+# Google Cloud Storage Configuration
+# See:
+# https://developers.google.com/storage/docs/reference/v1/getting-startedv1#keys
+# for details on access and secret keys.
+GCS_BUCKET={{docker_registry_gcs_bucket}}
+GCS_SECURE={{docker_registry_gcs_secure}}
+GCS_KEY={{docker_registry_gcs_access_key}}
+GCS_SECRET={{docker_registry_gcs_secret_key}}
+# OAuth 2.0 authentication with the storage.
+# oauth2 can be set to true or false. If it is set to true, gs_access_key,
+# gs_secret_key and gs_secure are not needed.
+# Client ID and Client Secret must be set into OAUTH2_CLIENT_ID and
+# OAUTH2_CLIENT_SECRET environment variables.
+# See: https://developers.google.com/accounts/docs/OAuth2.
+GCS_OAUTH2={{docker_registry_gcs_oauth2}}
+{% endif %}
+
+{% if docker_registry_profile == 'swift' or docker_registry_profile == 'glance-swift'
+        or docker_registry_profile == 'openstack-swift' %}
+
+# This flavor is for storing images in Openstack Swift
+# keystone authorization
+OS_AUTH_URL={{docker_registry_os_auth_url}}
+OS_CONTAINER={{docker_registry_os_container}}
+OS_USERNAME={{docker_registry_os_username}}
+OS_PASSWORD={{docker_registry_os_password}}
+OS_TENANT_NAME={{docker_registry_os_tenant_name}}
+OS_REGION_NAME={{docker_registry_os_region_name}}
+{% endif %}
+
+{% if docker_registry_profile == 'glance' or docker_registry_profile == 'openstack' %}
+# This flavor stores the images in Glance (to integrate with openstack)
+# See also: https://github.com/dotcloud/openstack-docker
+GLANCE_STORAGE_ALTERNATE={{docker_registry_glance_storage_alt}}
+{% endif %}
+
+{% if docker_registry_profile == 'elliptics' %}
+ELLIPTICS_NODES={{docker_registry_elliptics_nodes}}
+ELLIPTICS_WAIT_TIMEOUT={{docker_registry_elliptics_wait_timeout}}
+ELLIPTICS_CHECK_TIMEOUT={{docker_registry_elliptics_check_timeout}}
+ELLIPTICS_IO_THREAD_NUM={{docker_registry_elliptics_io_thread_num}}
+ELLIPTICS_NET_THREAD_NUM={{docker_registry_elliptics_net_thread_num}}
+ELLIPTICS_NONBLOCKING_IO_THREAD_NUM={{docker_registry_elliptics_nonblocking_io_thread_num}}
+ELLIPTICS_GROUPS={{docker_registry_elliptics_groups}}
+ELLIPTICS_VERBOSITY={{docker_registry_elliptics_verbosity}}
+ELLIPTICS_LOGFILE={{docker_registry_elliptics_logfile}}
+ELLIPTICS_ADDR_FAMILY={{docker_registry_elliptics_addr_family}}
+{% endif %}
