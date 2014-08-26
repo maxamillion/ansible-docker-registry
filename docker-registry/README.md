@@ -8,6 +8,8 @@ Requirements
 
 If this is being used to deploy on RHEL/CentOS (or a derivative distro such as Scientific Linux, Amazon Linux, etc) then EPEL is required. There are many ansible roles to satisfy this, two recommendations are: goozbach.EPEL or Rackspace_Automation.epel 
 
+NOTE: bennojoy.redis installs EPEL for EL6 and is a dependency, at this time that requirement is deferred.
+
 If this is being used to deploy on Fedora, no requirements necessary. All needed packages are in the Fedora repositories.
 
 Role Variables

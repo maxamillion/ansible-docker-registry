@@ -1,1 +1,1 @@
-roles/docker-registry/README.md
+docker-registry/README.md
