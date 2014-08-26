@@ -1,0 +1,7 @@
+---
+# handlers file for docker-registry
+
+- name: restart docker-registry
+  service: >
+    name=docker-registry
+    state=restarted
